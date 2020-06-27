@@ -12,7 +12,7 @@
     <artifactId>groupifier</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>groupifier</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Manager of filter groups</description>
 
     <properties>
         <java.version>14</java.version>
