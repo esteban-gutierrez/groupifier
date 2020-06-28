@@ -2,6 +2,7 @@ package com.bestsecret.groupifier.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,7 @@ public class TextPropGroupEntity {
     private String description;
     private Date createdAt;
     private Date modifiedAt;
+    private Collection<TextpropsGroupMappingEntity> textpropsGroupMappingsById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -78,5 +80,14 @@ public class TextPropGroupEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, createdAt, modifiedAt);
+    }
+
+    @OneToMany(mappedBy = "textPropGroupByGroupId")
+    public Collection<TextpropsGroupMappingEntity> getTextpropsGroupMappingsById() {
+        return textpropsGroupMappingsById;
+    }
+
+    public void setTextpropsGroupMappingsById(Collection<TextpropsGroupMappingEntity> textpropsGroupMappingsById) {
+        this.textpropsGroupMappingsById = textpropsGroupMappingsById;
     }
 }

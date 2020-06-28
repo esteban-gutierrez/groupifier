@@ -2,16 +2,21 @@ package com.bestsecret.groupifier.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "text_property", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextPropertyEntity {
     private int id;
+    private int textCatId;
     private String name;
     private String description;
     private Date createdAt;
     private Date modifiedAt;
+    private TextCategoryEntity textCategoryByTextCatId;
+    private Collection<TextValueEntity> textValuesById;
+    private Collection<TextpropsGroupMappingEntity> textpropsGroupMappingsById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -21,6 +26,16 @@ public class TextPropertyEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "text_cat_id", nullable = false)
+    public int getTextCatId() {
+        return textCatId;
+    }
+
+    public void setTextCatId(int textCatId) {
+        this.textCatId = textCatId;
     }
 
     @Basic
@@ -69,6 +84,7 @@ public class TextPropertyEntity {
         if (o == null || getClass() != o.getClass()) return false;
         TextPropertyEntity that = (TextPropertyEntity) o;
         return id == that.id &&
+                textCatId == that.textCatId &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -77,6 +93,34 @@ public class TextPropertyEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, createdAt, modifiedAt);
+        return Objects.hash(id, textCatId, name, description, createdAt, modifiedAt);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "text_cat_id", referencedColumnName = "id", nullable = false)
+    public TextCategoryEntity getTextCategoryByTextCatId() {
+        return textCategoryByTextCatId;
+    }
+
+    public void setTextCategoryByTextCatId(TextCategoryEntity textCategoryByTextCatId) {
+        this.textCategoryByTextCatId = textCategoryByTextCatId;
+    }
+
+    @OneToMany(mappedBy = "textPropertyByTextPropId")
+    public Collection<TextValueEntity> getTextValuesById() {
+        return textValuesById;
+    }
+
+    public void setTextValuesById(Collection<TextValueEntity> textValuesById) {
+        this.textValuesById = textValuesById;
+    }
+
+    @OneToMany(mappedBy = "textPropertyByTextPropId")
+    public Collection<TextpropsGroupMappingEntity> getTextpropsGroupMappingsById() {
+        return textpropsGroupMappingsById;
+    }
+
+    public void setTextpropsGroupMappingsById(Collection<TextpropsGroupMappingEntity> textpropsGroupMappingsById) {
+        this.textpropsGroupMappingsById = textpropsGroupMappingsById;
     }
 }

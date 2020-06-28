@@ -8,10 +8,12 @@ import java.util.Objects;
 @Table(name = "text_value", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextValueEntity {
     private int id;
+    private int textPropId;
     private String name;
     private String description;
     private Date createdAt;
     private Date modifiedAt;
+    private TextPropertyEntity textPropertyByTextPropId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -21,6 +23,16 @@ public class TextValueEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "text_prop_id", nullable = false)
+    public int getTextPropId() {
+        return textPropId;
+    }
+
+    public void setTextPropId(int textPropId) {
+        this.textPropId = textPropId;
     }
 
     @Basic
@@ -69,6 +81,7 @@ public class TextValueEntity {
         if (o == null || getClass() != o.getClass()) return false;
         TextValueEntity that = (TextValueEntity) o;
         return id == that.id &&
+                textPropId == that.textPropId &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -77,6 +90,16 @@ public class TextValueEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, createdAt, modifiedAt);
+        return Objects.hash(id, textPropId, name, description, createdAt, modifiedAt);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "text_prop_id", referencedColumnName = "id", nullable = false)
+    public TextPropertyEntity getTextPropertyByTextPropId() {
+        return textPropertyByTextPropId;
+    }
+
+    public void setTextPropertyByTextPropId(TextPropertyEntity textPropertyByTextPropId) {
+        this.textPropertyByTextPropId = textPropertyByTextPropId;
     }
 }

@@ -2,16 +2,21 @@ package com.bestsecret.groupifier.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "product_category", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class ProductCategoryEntity {
     private int id;
+    private Integer parentId;
     private String name;
     private String description;
     private Date createdAt;
     private Date modifiedAt;
+    private ProductCategoryEntity productCategoryByParentId;
+    private Collection<ProductCategoryEntity> productCategoriesById;
+    private Collection<TextCategoryEntity> textCategoriesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -21,6 +26,16 @@ public class ProductCategoryEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "parent_id", nullable = true)
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     @Basic
@@ -69,6 +84,7 @@ public class ProductCategoryEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ProductCategoryEntity that = (ProductCategoryEntity) o;
         return id == that.id &&
+                Objects.equals(parentId, that.parentId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -77,6 +93,34 @@ public class ProductCategoryEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, createdAt, modifiedAt);
+        return Objects.hash(id, parentId, name, description, createdAt, modifiedAt);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    public ProductCategoryEntity getProductCategoryByParentId() {
+        return productCategoryByParentId;
+    }
+
+    public void setProductCategoryByParentId(ProductCategoryEntity productCategoryByParentId) {
+        this.productCategoryByParentId = productCategoryByParentId;
+    }
+
+    @OneToMany(mappedBy = "productCategoryByParentId")
+    public Collection<ProductCategoryEntity> getProductCategoriesById() {
+        return productCategoriesById;
+    }
+
+    public void setProductCategoriesById(Collection<ProductCategoryEntity> productCategoriesById) {
+        this.productCategoriesById = productCategoriesById;
+    }
+
+    @OneToMany(mappedBy = "productCategoryByProductCatId")
+    public Collection<TextCategoryEntity> getTextCategoriesById() {
+        return textCategoriesById;
+    }
+
+    public void setTextCategoriesById(Collection<TextCategoryEntity> textCategoriesById) {
+        this.textCategoriesById = textCategoriesById;
     }
 }
