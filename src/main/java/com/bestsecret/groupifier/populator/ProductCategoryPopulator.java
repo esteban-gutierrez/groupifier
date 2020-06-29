@@ -1,6 +1,5 @@
 package com.bestsecret.groupifier.populator;
 
-import com.bestsecret.groupifier.exception.PopulatorException;
 import com.bestsecret.groupifier.model.ProductCategoryEntity;
 import org.springframework.stereotype.Service;
 

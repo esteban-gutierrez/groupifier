@@ -1,6 +1,6 @@
 package com.bestsecret.groupifier.service;
 
-import com.bestsecret.groupifier.exception.PopulatorException;
+import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.model.ProductCategoryEntity;
 import com.bestsecret.groupifier.populator.ProductCategoryPopulator;
 import com.bestsecret.groupifier.repository.ProductCategoryRepository;

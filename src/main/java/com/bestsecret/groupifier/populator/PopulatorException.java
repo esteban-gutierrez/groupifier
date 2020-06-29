@@ -1,4 +1,4 @@
-package com.bestsecret.groupifier.exception;
+package com.bestsecret.groupifier.populator;
 
 public class PopulatorException extends Exception {
     public PopulatorException(String errorMessage) {
