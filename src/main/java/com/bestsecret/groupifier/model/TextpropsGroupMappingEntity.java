@@ -7,12 +7,23 @@ import java.util.Objects;
 @Entity
 @Table(name = "textprops_group_mapping", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextpropsGroupMappingEntity {
+    private Long id;
     private Long groupId;
     private Long textPropId;
     private Date createdAt;
     private Date modifiedAt;
     private TextPropGroupEntity textPropGroupByGroupId;
     private TextPropertyEntity textPropertyByTextPropId;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "group_id", nullable = false)
