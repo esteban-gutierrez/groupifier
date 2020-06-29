@@ -2,7 +2,6 @@ package com.bestsecret.groupifier.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -14,8 +13,6 @@ public class TextCategoryEntity {
     private String description;
     private Date createdAt;
     private Date modifiedAt;
-    private ProductCategoryEntity productCategoryByProductCatId;
-    private Collection<TextPropertyEntity> textPropertiesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -82,8 +79,8 @@ public class TextCategoryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextCategoryEntity that = (TextCategoryEntity) o;
-        return id == that.id &&
-                productCatId == that.productCatId &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(productCatId, that.productCatId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -93,24 +90,5 @@ public class TextCategoryEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, productCatId, name, description, createdAt, modifiedAt);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "product_cat_id", referencedColumnName = "id", nullable = false)
-    public ProductCategoryEntity getProductCategoryByProductCatId() {
-        return productCategoryByProductCatId;
-    }
-
-    public void setProductCategoryByProductCatId(ProductCategoryEntity productCategoryByProductCatId) {
-        this.productCategoryByProductCatId = productCategoryByProductCatId;
-    }
-
-    @OneToMany(mappedBy = "textCategoryByTextCatId")
-    public Collection<TextPropertyEntity> getTextPropertiesById() {
-        return textPropertiesById;
-    }
-
-    public void setTextPropertiesById(Collection<TextPropertyEntity> textPropertiesById) {
-        this.textPropertiesById = textPropertiesById;
     }
 }

@@ -12,8 +12,6 @@ public class TextpropsGroupMappingEntity {
     private Long textPropId;
     private Date createdAt;
     private Date modifiedAt;
-    private TextPropGroupEntity textPropGroupByGroupId;
-    private TextPropertyEntity textPropertyByTextPropId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -70,34 +68,15 @@ public class TextpropsGroupMappingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextpropsGroupMappingEntity that = (TextpropsGroupMappingEntity) o;
-        return groupId == that.groupId &&
-                textPropId == that.textPropId &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(groupId, that.groupId) &&
+                Objects.equals(textPropId, that.textPropId) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(modifiedAt, that.modifiedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, textPropId, createdAt, modifiedAt);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    public TextPropGroupEntity getTextPropGroupByGroupId() {
-        return textPropGroupByGroupId;
-    }
-
-    public void setTextPropGroupByGroupId(TextPropGroupEntity textPropGroupByGroupId) {
-        this.textPropGroupByGroupId = textPropGroupByGroupId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "text_prop_id", referencedColumnName = "id", nullable = false)
-    public TextPropertyEntity getTextPropertyByTextPropId() {
-        return textPropertyByTextPropId;
-    }
-
-    public void setTextPropertyByTextPropId(TextPropertyEntity textPropertyByTextPropId) {
-        this.textPropertyByTextPropId = textPropertyByTextPropId;
+        return Objects.hash(id, groupId, textPropId, createdAt, modifiedAt);
     }
 }

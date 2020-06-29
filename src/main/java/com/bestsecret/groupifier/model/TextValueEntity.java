@@ -13,7 +13,6 @@ public class TextValueEntity {
     private String description;
     private Date createdAt;
     private Date modifiedAt;
-    private TextPropertyEntity textPropertyByTextPropId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -80,8 +79,8 @@ public class TextValueEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextValueEntity that = (TextValueEntity) o;
-        return id == that.id &&
-                textPropId == that.textPropId &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(textPropId, that.textPropId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -91,15 +90,5 @@ public class TextValueEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, textPropId, name, description, createdAt, modifiedAt);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "text_prop_id", referencedColumnName = "id", nullable = false)
-    public TextPropertyEntity getTextPropertyByTextPropId() {
-        return textPropertyByTextPropId;
-    }
-
-    public void setTextPropertyByTextPropId(TextPropertyEntity textPropertyByTextPropId) {
-        this.textPropertyByTextPropId = textPropertyByTextPropId;
     }
 }

@@ -2,7 +2,6 @@ package com.bestsecret.groupifier.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -14,9 +13,6 @@ public class ProductCategoryEntity {
     private String description;
     private Date createdAt;
     private Date modifiedAt;
-    private ProductCategoryEntity productCategoryByParentId;
-    private Collection<ProductCategoryEntity> productCategoriesById;
-    private Collection<TextCategoryEntity> textCategoriesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -83,7 +79,7 @@ public class ProductCategoryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCategoryEntity that = (ProductCategoryEntity) o;
-        return id == that.id &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(parentId, that.parentId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
@@ -94,33 +90,5 @@ public class ProductCategoryEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, parentId, name, description, createdAt, modifiedAt);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
-    public ProductCategoryEntity getProductCategoryByParentId() {
-        return productCategoryByParentId;
-    }
-
-    public void setProductCategoryByParentId(ProductCategoryEntity productCategoryByParentId) {
-        this.productCategoryByParentId = productCategoryByParentId;
-    }
-
-    @OneToMany(mappedBy = "productCategoryByParentId")
-    public Collection<ProductCategoryEntity> getProductCategoriesById() {
-        return productCategoriesById;
-    }
-
-    public void setProductCategoriesById(Collection<ProductCategoryEntity> productCategoriesById) {
-        this.productCategoriesById = productCategoriesById;
-    }
-
-    @OneToMany(mappedBy = "productCategoryByProductCatId")
-    public Collection<TextCategoryEntity> getTextCategoriesById() {
-        return textCategoriesById;
-    }
-
-    public void setTextCategoriesById(Collection<TextCategoryEntity> textCategoriesById) {
-        this.textCategoriesById = textCategoriesById;
     }
 }
