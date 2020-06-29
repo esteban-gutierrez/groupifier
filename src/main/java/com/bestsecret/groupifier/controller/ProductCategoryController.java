@@ -16,19 +16,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class ProductCategoryController {
-    @Autowired
+    @Resource
     private ProductCategoryRepository productCategoryRepository;
 
     @Resource
     private ProductCategoryPopulator productCategoryPopulator;
 
     @GetMapping("/productcategories")
-    public List<ProductCategoryEntity> getAllProductCategories() {
-        return productCategoryRepository.findAll();
+    public ResponseEntity<List<ProductCategoryEntity>> getAllProductCategories() throws ResponseStatusException {
+        try {
+            List<ProductCategoryEntity> productCategoryEntityList = productCategoryRepository.findAll();
+            return ResponseEntity.ok(productCategoryEntityList);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error getting all product categories", e);
+        }
     }
 
     @GetMapping("/productcategories/{id}")
-    public ResponseEntity<ProductCategoryEntity> getAllProductCategoryById(@PathVariable(value = "id") Long productCategoryId)
+    public ResponseEntity<ProductCategoryEntity> getProductCategoryById(@PathVariable(value = "id") Long productCategoryId)
             throws ResponseStatusException {
         ProductCategoryEntity productCategoryEntity = productCategoryRepository.findById(productCategoryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
