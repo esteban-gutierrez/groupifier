@@ -2,9 +2,7 @@ package com.bestsecret.groupifier.controller;
 
 import com.bestsecret.groupifier.exception.PopulatorException;
 import com.bestsecret.groupifier.model.ProductCategoryEntity;
-import com.bestsecret.groupifier.populator.ProductCategoryPopulator;
-import com.bestsecret.groupifier.repository.ProductCategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bestsecret.groupifier.service.ProductCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +15,12 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class ProductCategoryController {
     @Resource
-    private ProductCategoryRepository productCategoryRepository;
-
-    @Resource
-    private ProductCategoryPopulator productCategoryPopulator;
+    private ProductCategoryService productCategoryService;
 
     @GetMapping("/productcategories")
     public ResponseEntity<List<ProductCategoryEntity>> getAllProductCategories() throws ResponseStatusException {
         try {
-            List<ProductCategoryEntity> productCategoryEntityList = productCategoryRepository.findAll();
+            List<ProductCategoryEntity> productCategoryEntityList = productCategoryService.getAllProductCategories();
             return ResponseEntity.ok(productCategoryEntityList);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -33,12 +28,16 @@ public class ProductCategoryController {
         }
     }
 
+    private ProductCategoryEntity getProductCategoryEntityById(Long productCategoryId) {
+        return productCategoryService.getProductCategoryById(productCategoryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("Product category with id=%s not found", productCategoryId)));
+    }
+
     @GetMapping("/productcategories/{id}")
     public ResponseEntity<ProductCategoryEntity> getProductCategoryById(@PathVariable(value = "id") Long productCategoryId)
             throws ResponseStatusException {
-        ProductCategoryEntity productCategoryEntity = productCategoryRepository.findById(productCategoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Product category with id=%s not found", productCategoryId)));
+        ProductCategoryEntity productCategoryEntity = getProductCategoryEntityById(productCategoryId);
         return ResponseEntity.ok(productCategoryEntity);
     }
 
@@ -46,7 +45,7 @@ public class ProductCategoryController {
     public ResponseEntity<ProductCategoryEntity> createProductCategory(@RequestBody ProductCategoryEntity productCategory)
             throws ResponseStatusException {
         try {
-            ProductCategoryEntity createdProductCategory = productCategoryRepository.save(productCategory);
+            ProductCategoryEntity createdProductCategory = productCategoryService.createProductCategory(productCategory);
             return ResponseEntity.ok(createdProductCategory);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating product category", e);
@@ -58,11 +57,9 @@ public class ProductCategoryController {
                 @PathVariable(value = "id") Long productCategoryId,
                 @RequestBody ProductCategoryEntity productCategoryMainData)
             throws ResponseStatusException {
-        ProductCategoryEntity productCategoryEntity = productCategoryRepository.findById(productCategoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Product category with id=%s not found", productCategoryId)));
+        ProductCategoryEntity productCategoryEntity = getProductCategoryEntityById(productCategoryId);
         try {
-            productCategoryPopulator.populateMainData(productCategoryEntity, productCategoryMainData);
+            productCategoryService.updateProductCategoryMainData(productCategoryEntity, productCategoryMainData);
         } catch (PopulatorException populatorException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Product category with id=%s could not be updated", productCategoryId),
@@ -76,11 +73,9 @@ public class ProductCategoryController {
             @PathVariable(value = "id") Long productCategoryId,
             @RequestBody ProductCategoryEntity productCategoryMainData)
             throws ResponseStatusException {
-        ProductCategoryEntity productCategoryEntity = productCategoryRepository.findById(productCategoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Product category with id=%s not found", productCategoryId)));
+        ProductCategoryEntity productCategoryEntity = getProductCategoryEntityById(productCategoryId);
         try {
-            productCategoryPopulator.populateAllData(productCategoryEntity, productCategoryMainData);
+            productCategoryService.updateProductCategoryAllData(productCategoryEntity, productCategoryMainData);
         } catch (PopulatorException populatorException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Product category with ID=%s could not be updated", productCategoryId),
@@ -92,11 +87,9 @@ public class ProductCategoryController {
     @DeleteMapping("/productcategories/{id}")
     public ResponseEntity<String> deleteProductCategory(@PathVariable(name = "id") Long productCategoryId)
             throws ResponseStatusException {
-        ProductCategoryEntity productCategoryEntity = productCategoryRepository.findById(productCategoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Product category with id=%s not found", productCategoryId)));
+        ProductCategoryEntity productCategoryEntity = getProductCategoryEntityById(productCategoryId);
         try {
-            productCategoryRepository.delete(productCategoryEntity);
+            productCategoryService.deleteProductCategory(productCategoryEntity);
             return ResponseEntity.ok(String.format("Product category with id=%s deleted successfully", productCategoryId));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
