@@ -45,6 +45,7 @@ CREATE TABLE product_attributes.text_prop_group(
 );
 
 CREATE TABLE product_attributes.textprops_group_mapping(
+    id INT PRIMARY KEY IDENTITY,
     group_id INT NOT NULL FOREIGN KEY REFERENCES product_attributes.text_prop_group(id),
     text_prop_id INT NOT NULL FOREIGN KEY REFERENCES product_attributes.text_property(id),
     created_at DATETIME2 NOT NULL,
