@@ -78,7 +78,7 @@ public class ProductCategoryController {
             productCategoryService.updateProductCategoryAllData(productCategoryEntity, productCategoryMainData);
         } catch (PopulatorException populatorException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Product category with ID=%s could not be updated", productCategoryId),
+                    String.format("Product category with id=%s could not be updated", productCategoryId),
                     populatorException);
         }
         return ResponseEntity.ok(productCategoryEntity);
