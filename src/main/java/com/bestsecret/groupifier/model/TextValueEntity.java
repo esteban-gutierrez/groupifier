@@ -7,8 +7,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "text_value", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextValueEntity {
-    private int id;
-    private int textPropId;
+    private Long id;
+    private Long textPropId;
     private String name;
     private String description;
     private Date createdAt;
@@ -17,21 +17,21 @@ public class TextValueEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "text_prop_id", nullable = false)
-    public int getTextPropId() {
+    public Long getTextPropId() {
         return textPropId;
     }
 
-    public void setTextPropId(int textPropId) {
+    public void setTextPropId(Long textPropId) {
         this.textPropId = textPropId;
     }
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "product_category", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class ProductCategoryEntity {
     private int id;
-    private Integer parentId;
+    private Long parentId;
     private String name;
     private String description;
     private Date createdAt;
@@ -30,11 +30,11 @@ public class ProductCategoryEntity {
 
     @Basic
     @Column(name = "parent_id", nullable = true)
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

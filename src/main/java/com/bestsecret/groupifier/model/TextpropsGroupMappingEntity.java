@@ -7,8 +7,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "textprops_group_mapping", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextpropsGroupMappingEntity {
-    private int groupId;
-    private int textPropId;
+    private Long groupId;
+    private Long textPropId;
     private Date createdAt;
     private Date modifiedAt;
     private TextPropGroupEntity textPropGroupByGroupId;
@@ -16,21 +16,21 @@ public class TextpropsGroupMappingEntity {
 
     @Basic
     @Column(name = "group_id", nullable = false)
-    public int getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
     @Basic
     @Column(name = "text_prop_id", nullable = false)
-    public int getTextPropId() {
+    public Long getTextPropId() {
         return textPropId;
     }
 
-    public void setTextPropId(int textPropId) {
+    public void setTextPropId(Long textPropId) {
         this.textPropId = textPropId;
     }
 

@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "text_prop_group", schema = "PRODUCT_ATTRIBUTES", catalog = "groupifier")
 public class TextPropGroupEntity {
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private Date createdAt;
@@ -17,11 +17,11 @@ public class TextPropGroupEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
