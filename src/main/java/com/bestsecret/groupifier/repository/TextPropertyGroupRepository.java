@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TextPropGroupRepository extends JpaRepository<TextPropGroupEntity, Long> {
+public interface TextPropertyGroupRepository extends JpaRepository<TextPropGroupEntity, Long> {
 }

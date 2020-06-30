@@ -4,7 +4,7 @@ import com.bestsecret.groupifier.model.TextPropGroupEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TextPropGroupPopulator {
+public class TextPropertyGroupPopulator {
     public void populateMainData(TextPropGroupEntity textPropGroup, TextPropGroupEntity textPropGroupMainData)
         throws PopulatorException {
         try {
