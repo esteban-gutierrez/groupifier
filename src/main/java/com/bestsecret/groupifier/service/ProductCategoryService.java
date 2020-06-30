@@ -34,6 +34,7 @@ public class ProductCategoryService {
                                                                ProductCategoryEntity productCategoryMainData)
             throws PopulatorException {
         productCategoryPopulator.populateMainData(productCategoryEntity, productCategoryMainData);
+        productCategoryRepository.save(productCategoryEntity);
         return productCategoryEntity;
     }
 
@@ -41,6 +42,7 @@ public class ProductCategoryService {
                                                               ProductCategoryEntity productCategoryMainData)
             throws PopulatorException {
         productCategoryPopulator.populateAllData(productCategoryEntity, productCategoryMainData);
+        productCategoryRepository.save(productCategoryEntity);
         return productCategoryEntity;
     }
 

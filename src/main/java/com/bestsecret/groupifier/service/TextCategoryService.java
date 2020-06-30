@@ -26,25 +26,27 @@ public class TextCategoryService {
         return textCategoryRepository.findById(textCategoryId);
     }
 
-    public TextCategoryEntity createTextCategory(TextCategoryEntity productCategory) {
-        return textCategoryRepository.save(productCategory);
+    public TextCategoryEntity createTextCategory(TextCategoryEntity textCategory) {
+        return textCategoryRepository.save(textCategory);
     }
 
-    public TextCategoryEntity updateTextCategoryMainData(TextCategoryEntity productCategoryEntity,
-                                                         TextCategoryEntity productCategoryMainData)
+    public TextCategoryEntity updateTextCategoryMainData(TextCategoryEntity textCategoryEntity,
+                                                         TextCategoryEntity textCategoryMainData)
             throws PopulatorException {
-        textCategoryPopulator.populateMainData(productCategoryEntity, productCategoryMainData);
-        return productCategoryEntity;
+        textCategoryPopulator.populateMainData(textCategoryEntity, textCategoryMainData);
+        textCategoryRepository.save(textCategoryEntity);
+        return textCategoryEntity;
     }
 
-    public TextCategoryEntity updateTextCategoryAllData(TextCategoryEntity productCategoryEntity,
-                                                        TextCategoryEntity productCategoryMainData)
+    public TextCategoryEntity updateTextCategoryAllData(TextCategoryEntity textCategoryEntity,
+                                                        TextCategoryEntity textCategoryMainData)
             throws PopulatorException {
-        textCategoryPopulator.populateAllData(productCategoryEntity, productCategoryMainData);
-        return productCategoryEntity;
+        textCategoryPopulator.populateAllData(textCategoryEntity, textCategoryMainData);
+        textCategoryRepository.save(textCategoryEntity);
+        return textCategoryEntity;
     }
 
-    public void deleteTextCategory(TextCategoryEntity productCategoryEntity) {
-        textCategoryRepository.delete(productCategoryEntity);
+    public void deleteTextCategory(TextCategoryEntity textCategoryEntity) {
+        textCategoryRepository.delete(textCategoryEntity);
     }
 }
