@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${groupifier.rest.api.uri}")
-public class TextCategoryRepositoryController {
+public class TextCategoryController {
     @Resource
     private TextCategoryService textCategoryService;
 
