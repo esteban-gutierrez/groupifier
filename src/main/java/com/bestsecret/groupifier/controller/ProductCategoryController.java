@@ -4,6 +4,7 @@ import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.model.ProductCategoryEntity;
 import com.bestsecret.groupifier.service.ProductCategoryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,7 +42,8 @@ public class ProductCategoryController {
         return ResponseEntity.ok(productCategoryEntity);
     }
 
-    @PostMapping("/productcategories")
+    @PostMapping(value = "/productcategories", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<ProductCategoryEntity> createProductCategory(@RequestBody ProductCategoryEntity productCategory)
             throws ResponseStatusException {
         try {
