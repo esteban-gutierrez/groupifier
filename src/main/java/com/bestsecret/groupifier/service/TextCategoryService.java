@@ -4,6 +4,7 @@ import com.bestsecret.groupifier.model.TextCategoryEntity;
 import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.populator.TextCategoryPopulator;
 import com.bestsecret.groupifier.repository.TextCategoryRepository;
+import com.bestsecret.groupifier.util.TimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ public class TextCategoryService {
     @Resource
     private TextCategoryPopulator textCategoryPopulator;
 
+    @Resource
+    private TimeService timeService;
+
     public List<TextCategoryEntity> getAllTextCategories() {
         return textCategoryRepository.findAll();
     }
@@ -27,6 +31,8 @@ public class TextCategoryService {
     }
 
     public TextCategoryEntity createTextCategory(TextCategoryEntity textCategory) {
+        textCategory.setCreatedAt(timeService.getCurrentSQLDate());
+        textCategory.setModifiedAt(timeService.getCurrentSQLDate());
         return textCategoryRepository.save(textCategory);
     }
 
