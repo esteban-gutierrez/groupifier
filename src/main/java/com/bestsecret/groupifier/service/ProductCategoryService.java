@@ -4,6 +4,7 @@ import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.model.ProductCategoryEntity;
 import com.bestsecret.groupifier.populator.ProductCategoryPopulator;
 import com.bestsecret.groupifier.repository.ProductCategoryRepository;
+import com.bestsecret.groupifier.util.TimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ public class ProductCategoryService {
     @Resource
     private ProductCategoryPopulator productCategoryPopulator;
 
+    @Resource
+    private TimeService timeService;
+
     public List<ProductCategoryEntity> getAllProductCategories() {
         return productCategoryRepository.findAll();
     }
@@ -27,10 +31,8 @@ public class ProductCategoryService {
     }
 
     public ProductCategoryEntity createProductCategory(ProductCategoryEntity productCategory) {
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        productCategory.setCreatedAt(sqlDate);
-        productCategory.setModifiedAt(sqlDate);
+        productCategory.setCreatedAt(timeService.getCurrentSQLDate());
+        productCategory.setModifiedAt(timeService.getCurrentSQLDate());
         return productCategoryRepository.save(productCategory);
     }
 
