@@ -4,6 +4,7 @@ import com.bestsecret.groupifier.model.TextValueEntity;
 import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.populator.TextValuePopulator;
 import com.bestsecret.groupifier.repository.TextValueRepository;
+import com.bestsecret.groupifier.util.TimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ public class TextValueService {
     @Resource
     private TextValuePopulator textValuePopulator;
 
+    @Resource
+    private TimeService timeService;
+
     public List<TextValueEntity> getAllTextValues() {
         return textValueRepository.findAll();
     }
@@ -27,6 +31,8 @@ public class TextValueService {
     }
 
     public TextValueEntity createTextValue(TextValueEntity textValue) {
+        textValue.setCreatedAt(timeService.getCurrentSQLDate());
+        textValue.setModifiedAt(timeService.getCurrentSQLDate());
         return textValueRepository.save(textValue);
     }
 

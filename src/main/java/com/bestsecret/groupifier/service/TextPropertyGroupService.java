@@ -4,6 +4,7 @@ import com.bestsecret.groupifier.model.TextPropGroupEntity;
 import com.bestsecret.groupifier.populator.PopulatorException;
 import com.bestsecret.groupifier.populator.TextPropertyGroupPopulator;
 import com.bestsecret.groupifier.repository.TextPropertyGroupRepository;
+import com.bestsecret.groupifier.util.TimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ public class TextPropertyGroupService {
     @Resource
     private TextPropertyGroupPopulator textPropertyGroupPopulator;
 
+    @Resource
+    private TimeService timeService;
+
     public List<TextPropGroupEntity> getAllTextPropertyGroups() {
         return textPropertyGroupRepository.findAll();
     }
@@ -27,6 +31,8 @@ public class TextPropertyGroupService {
     }
 
     public TextPropGroupEntity createTextPropGroup(TextPropGroupEntity textPropGroup) {
+        textPropGroup.setCreatedAt(timeService.getCurrentSQLDate());
+        textPropGroup.setModifiedAt(timeService.getCurrentSQLDate());
         return textPropertyGroupRepository.save(textPropGroup);
     }
 
